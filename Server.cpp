@@ -1,5 +1,5 @@
 //インクルードライブラリ
-/*#include <iostream>
+#include <iostream>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include "Server.h"
@@ -94,43 +94,48 @@ int Server::CriateSocket(int sock, int listen) {
 
 }
 
-    // 送受信部
-    while (true)
+bool Recv(int sock, struct TestStruct* value)
+{
+    struct TestStruct recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
+    int ret;		// 成否の判定用
+    // 受信
+    ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+    // 失敗
+    if (ret != sizeof(recvValue))
     {
-        char buff[MESSAGELENGTH];	// 送受信メッセージの格納領域
-
-        std::cout << "---wait message---" << std::endl;
-        // クライアントからのメッセージ受信
-        ret = recv(sock, buff, sizeof(buff) - 1, 0);
-        if (ret < 0)
-        {
-            // エラーコードを出力
-            std::cout << "Error: recv( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
-            // ぬける
-            break;
-        }
-        // 終端記号の追加
-        buff[ret] = '\0';
-
-        // 出力
-        std::cout << "Receive message : " << buff << std::endl;
-
-
-        // 送信メッセージの入力
-        std::cout << "Input message:";
-        std::cin >> buff;
-
-        // 送信
-        ret = send(sock, buff, strlen(buff), 0);
-        if (ret != strlen(buff))
-        {
-            // エラーコードを出力
-            std::cout << "Error: recv( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
-            // ぬける
-            break;
-        }
+        return false;
     }
 
+    // 成功時の処理
+    strcpy_s(value->name, sizeof(value->name), recvValue.name);	// 文字列のコピー
+    value->x = ntohl(recvValue.x);								// int バイトオーダー変換
+    value->y = ntohl(recvValue.y);								// int バイトオーダー変換
+    value->hp = ntohl(recvValue.hp);							// int バイトオーダー変換
+    return true;
+}
+
+bool Server::Send(int sock, TestStruct value)
+{
+    struct TestStruct sendValue;	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
+    strcpy_s(sendValue.name, sizeof(sendValue.name), value.name);	// 文字列のコピー
+    sendValue.x = htonl(value.position_.x);									// int バイトオーダー変換
+    sendValue.y = htonl(value.y);									// int バイトオーダー変換
+    sendValue.hp = htonl(value.hp);									// int バイトオーダー変換
+
+    int ret;		// 成否の判定用
+    // 送信
+    ret = send(sock, (char*)&sendValue, sizeof(sendValue), 0);
+    // 失敗
+    if (ret != sizeof(sendValue))
+    {
+        return false;
+    }
+
+    // 成功
+    return true;
+}
+
+int Server::Shutdown(int sock, int listen,int ret){
     // 送受信ともに切断
     // shutdown(sock, 0x02);
     if (shutdown(sock, SD_BOTH) != 0)
@@ -149,7 +154,7 @@ int Server::CriateSocket(int sock, int listen) {
     }
     std::cout << "Success: closesocket() " << std::endl;
 
-    if (closesocket(listenSock) != 0)
+    if (closesocket(listen) != 0)
     {
         // エラーコードを出力
         std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
@@ -167,5 +172,4 @@ int Server::CriateSocket(int sock, int listen) {
 
 
     return 0;
-}*/
-
+}
