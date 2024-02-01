@@ -97,6 +97,8 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="IPlayer.cpp" />
+    <ClCompile Include="IAttack.cpp" />
+    <ClCompile Include="IDifence.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -170,6 +172,8 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="IPlayer.h" />
+    <ClInclude Include="IAttack.h" />
+    <ClInclude Include="IDifence.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

@@ -148,6 +148,8 @@
     <ClCompile Include="Engine\Text.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="IAttack.cpp" />
+    <ClCompile Include="IDifence.cpp" />
     <ClCompile Include="IPlayer.cpp" />
     <ClCompile Include="TestScene.cpp" />
   </ItemGroup>
@@ -175,6 +177,8 @@
     <ClInclude Include="Engine\Text.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="IAttack.h" />
+    <ClInclude Include="IDifence.h" />
     <ClInclude Include="IPlayer.h" />
     <ClInclude Include="TestScene.h" />
   </ItemGroup>
