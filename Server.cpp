@@ -1,9 +1,9 @@
 //インクルードライブラリ
-/*#include <iostream>
+#include <iostream>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include "Server.h"
-#include "Engine/Text.h"
+#include "Player.h"
 
 #pragma comment( lib, "ws2_32.lib" )
 
@@ -15,8 +15,8 @@ const unsigned int MESSAGELENGTH = 1024;
 struct PlayerStates {
     //Player* pPlayer;
 
-    int hp_;
-    Transform* pPlayerPos;
+    int hp;
+    XMFLOAT3 position;
 };
 
 int Server::InitWinSock(int _ret){
@@ -25,8 +25,7 @@ int Server::InitWinSock(int _ret){
     _ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (_ret != 0)
     {
-        //std::cout << "Error: WSAStartup ( ErrorCode:" << ret << " )" << std::endl;
-        //return 1;
+        
     }
     //std::cout << "Success: WSAStartup" << std::endl;
     return _ret;
@@ -94,9 +93,31 @@ int Server::CriateSocket(int sock, int listen) {
 
 }
 
+bool Recv(int sock, struct PlayerStates* value)
+{
+    struct PlayerStates recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
+    int ret;		// 成否の判定用
+    // 受信
+    ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+    // 失敗
+    if (ret != sizeof(recvValue))
+    {
+        return false;
+    }
+
+    // 成功時の処理
+    value->hp = ntohl(recvValue.hp);	// int バイトオーダー変換
+    value->position.x = ntohl(recvValue.position.x);
+    return true;
+}
+
     // 送受信部
     while (true)
     {
+        
+
+
+
         char buff[MESSAGELENGTH];	// 送受信メッセージの格納領域
 
         std::cout << "---wait message---" << std::endl;
