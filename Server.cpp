@@ -4,6 +4,7 @@
 #include <WS2tcpip.h>
 #include "Server.h"
 #include "Engine/Text.h"
+#include "IPlayer.h"
 
 #pragma comment( lib, "ws2_32.lib" )
 
@@ -20,7 +21,7 @@ int Server::InitWinSock(int _ret){
     if (_ret != 0)
     {
         //std::cout << "Error: WSAStartup ( ErrorCode:" << ret << " )" << std::endl;
-        //return 1;
+        return 1;
     }
     //std::cout << "Success: WSAStartup" << std::endl;
     return _ret;
@@ -34,11 +35,11 @@ int Server::CriateListenSock(int listen) {
     if (listenSock < 0)
     {
         // エラーコードを出力
-        std::cout << "Error: socket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: socket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
         // 終了
         return 1;
     }
-    std::cout << "Success: socket()" << std::endl;
+    //std::cout << "Success: socket()" << std::endl;
     // bind
 
     struct sockaddr_in bindAddr;	// bind用のソケットアドレス情報
@@ -51,23 +52,23 @@ int Server::CriateListenSock(int listen) {
     if (bind(listenSock, (struct sockaddr*)&bindAddr, sizeof(bindAddr)) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: bind( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: bind( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
         // 終了
         return 1;
     }
 
-    std::cout << "Success: bind()" << std::endl;
+    //std::cout << "Success: bind()" << std::endl;
 
     // リスン状態に設定	キューのサイズ:1
     if ((listenSock, 1) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: listen( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: listen( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
         // 終了
         return 1;
     }
-    std::cout << "Success: listen()" << std::endl;
-    std::cout << "---wait connect---" << std::endl;
+    //std::cout << "Success: listen()" << std::endl;
+    //std::cout << "---wait connect---" << std::endl;
 }
 
 int Server::CriateSocket(int sock, int listen) {
@@ -80,11 +81,11 @@ int Server::CriateSocket(int sock, int listen) {
     if (sock < 0)
     {
         // エラーコードを出力
-        std::cout << "Error: accept( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: accept( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
         // 終了
         return 1;
     }
-    std::cout << "Success: accept() " << std::endl;
+    //std::cout << "Success: accept() " << std::endl;
 
 }
 
@@ -135,32 +136,32 @@ int Server::Shutdown(int sock, int listen,int ret){
     if (shutdown(sock, SD_BOTH) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: shutdown( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: shutdown( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
     }
-    std::cout << "Success: shutdown() " << std::endl;
+    //std::cout << "Success: shutdown() " << std::endl;
 
 
     // ソケットの破棄
     if (closesocket(sock) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
     }
-    std::cout << "Success: closesocket() " << std::endl;
+    //std::cout << "Success: closesocket() " << std::endl;
 
     if (closesocket(listen) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
     }
-    std::cout << "Success: closesocket() " << std::endl;
+    //std::cout << "Success: closesocket() " << std::endl;
 
     // WinSock終了処理
     if (WSACleanup() != 0)
     {
-        std::cout << "Error: WSACleanup ( ErrorCode:" << ret << " )" << std::endl;
+        //std::cout << "Error: WSACleanup ( ErrorCode:" << ret << " )" << std::endl;
     }
-    std::cout << "Success: WSACleanup" << std::endl;
+    //std::cout << "Success: WSACleanup" << std::endl;
 
 
 
