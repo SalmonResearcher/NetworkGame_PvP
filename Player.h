@@ -13,6 +13,15 @@ private:
 		Transform transPlayer_;
 	};
 
+protected:
+	//構造体
+	struct PlayerStates {
+		//Player* pPlayer;
+		int8_t PlayerID;
+		int hp_;
+		Transform* pPlayerPos;
+	};
+
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

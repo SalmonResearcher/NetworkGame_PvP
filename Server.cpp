@@ -11,13 +11,7 @@
 const unsigned short SERVERPORT = 8888;
 // 送受信するメッセージの最大値
 const unsigned int MESSAGELENGTH = 1024;
-//構造体
-struct PlayerStates {
-    //Player* pPlayer;
 
-    int hp_;
-    Transform* pPlayerPos;
-};
 
 int Server::InitWinSock(int _ret){
     // WinSock初期化

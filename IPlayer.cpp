@@ -3,3 +3,8 @@
 IPlayer::IPlayer()
 {
 }
+
+IPlayer::PlayerComp::PlayerComp()
+{
+
+}
