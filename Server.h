@@ -6,12 +6,13 @@ class IPlayer;
 class Server
 {
 private:
-	IPlayer* pID = new IPlayer;
+	uint8_t ID = 0;
+
 public:
-	int InitWinSock(int ret);
-	int CriateListenSock(int listen);
-	int CriateSocket(int sock, int listen);
-	bool Recv(int sock, struct value);
-	bool Send(int sock, struct TestStruct value);
+	int InitWinSock();
+	int CriateListenSock();
+	int CriateSocket(int listen);
+	bool Recv(int sock, IPlayer* playerID);
+	bool Send(int sock, IPlayer* playerID);
 	int Shutdown(int sock, int listen, int ret);
 };

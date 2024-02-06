@@ -1,7 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
 
-
+class IPlayer;
+class Server;
 
 class Player :
     public GameObject
@@ -13,14 +14,11 @@ private:
 		Transform transPlayer_;
 	};
 
-protected:
-	//構造体
-	struct PlayerStates {
-		//Player* pPlayer;
-		int8_t PlayerID;
-		int hp_;
-		Transform* pPlayerPos;
-	};
+	IPlayer* pID;
+
+	Server* pServer;
+	int listen = 0;
+	int sock = 0;
 
 public:
 	//コンストラクタ
@@ -39,7 +37,7 @@ public:
 	//開放
 	void Release() override;
 
-	
+	bool IsPlayable() {}
 
 	CliantPlayer pla;
 

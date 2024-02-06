@@ -14,20 +14,20 @@ const unsigned short SERVERPORT = 8888;
 const unsigned int MESSAGELENGTH = 1024;
 
 
-int Server::InitWinSock(int _ret){
+int Server::InitWinSock(){
     // WinSock初期化
     WSADATA wsaData;
-    _ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (_ret != 0)
+    int ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (ret != 0)
     {
-        //std::cout << "Error: WSAStartup ( ErrorCode:" << ret << " )" << std::endl;
+        //WSADATAセットアップ　失敗！
         return 1;
     }
-    //std::cout << "Success: WSAStartup" << std::endl;
-    return _ret;
+    //WSADATAのセットアップ完了
+    return ret;
     }
 
-int Server::CriateListenSock(int listen) {
+int Server::CriateListenSock() {
     // リスンソケットの作成
     int listenSock;
     listenSock = socket(AF_INET, SOCK_STREAM, 0);	// 0で自動設定
@@ -39,8 +39,7 @@ int Server::CriateListenSock(int listen) {
         // 終了
         return 1;
     }
-    //std::cout << "Success: socket()" << std::endl;
-    // bind
+    //ソケットの作成完了
 
     struct sockaddr_in bindAddr;	// bind用のソケットアドレス情報
     memset(&bindAddr, 0, sizeof(bindAddr));
@@ -51,13 +50,12 @@ int Server::CriateListenSock(int listen) {
     // ソケットアドレス情報設定	※固定のポート番号設定
     if (bind(listenSock, (struct sockaddr*)&bindAddr, sizeof(bindAddr)) != 0)
     {
-        // エラーコードを出力
-        //std::cout << "Error: bind( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //バインド失敗
         // 終了
         return 1;
     }
 
-    //std::cout << "Success: bind()" << std::endl;
+    //バインド完了
 
     // リスン状態に設定	キューのサイズ:1
     if ((listenSock, 1) != 0)
@@ -67,17 +65,18 @@ int Server::CriateListenSock(int listen) {
         // 終了
         return 1;
     }
-    //std::cout << "Success: listen()" << std::endl;
-    //std::cout << "---wait connect---" << std::endl;
+    //リスンソケットOK
+    //相手方の接続待ち
+
 }
 
-int Server::CriateSocket(int sock, int listen) {
+int Server::CriateSocket(int listen) {
     struct sockaddr_in clientAddr;		// 接続要求をしてきたクライアントのソケットアドレス情報格納領域
     int addrlen = sizeof(clientAddr);	// clientAddrのサイズ
 
     // クライアントからのconnect()を受けて、コネクション確立済みのソケット作成
 
-    sock = accept(listen, (struct sockaddr*)&clientAddr, &addrlen);
+    int sock = accept(listen, (struct sockaddr*)&clientAddr, &addrlen);
     if (sock < 0)
     {
         // エラーコードを出力
@@ -89,39 +88,34 @@ int Server::CriateSocket(int sock, int listen) {
 
 }
 
-bool Recv(int sock, struct TestStruct* value)
+bool Recv(int sock, struct IPlayer* playerID)
 {
-    struct TestStruct recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
+    IPlayer recvplayerID;	// 受信データの格納領域...ネットワークバイトオーダー状態
     int ret;		// 成否の判定用
     // 受信
-    ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+    ret = recv(sock, (char*)&recvplayerID, sizeof(recvplayerID), 0);
     // 失敗
-    if (ret != sizeof(recvValue))
+    if (ret != sizeof(recvplayerID))
     {
         return false;
     }
 
     // 成功時の処理
-    strcpy_s(value->name, sizeof(value->name), recvValue.name);	// 文字列のコピー
-    value->x = ntohl(recvValue.x);								// int バイトオーダー変換
-    value->y = ntohl(recvValue.y);								// int バイトオーダー変換
-    value->hp = ntohl(recvValue.hp);							// int バイトオーダー変換
+    recvplayerID.comp.pos.x = ntohl(playerID->comp.pos.x);
+    recvplayerID.comp.pos.y = ntohl(playerID->comp.pos.y);
+    recvplayerID.comp.pos.z = ntohl(playerID->comp.pos.z);
+
     return true;
 }
 
-bool Server::Send(int sock, TestStruct value)
+bool Server::Send(int sock, IPlayer* playerID)
 {
-    struct TestStruct sendValue;	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
-    strcpy_s(sendValue.name, sizeof(sendValue.name), value.name);	// 文字列のコピー
-    sendValue.x = htonl(value.position_.x);									// int バイトオーダー変換
-    sendValue.y = htonl(value.y);									// int バイトオーダー変換
-    sendValue.hp = htonl(value.hp);									// int バイトオーダー変換
+    struct IPlayer sendplayerID;	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
 
-    int ret;		// 成否の判定用
     // 送信
-    ret = send(sock, (char*)&sendValue, sizeof(sendValue), 0);
+    int ret = send(sock, (char*)&sendplayerID, sizeof(sendplayerID), 0);
     // 失敗
-    if (ret != sizeof(sendValue))
+    if (ret != sizeof(sendplayerID))
     {
         return false;
     }

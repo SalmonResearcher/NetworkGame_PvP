@@ -2,6 +2,8 @@
 #include "Hammer.h"
 #include "Engine/Model.h"
 #include "Engine/Input.h"
+#include "TestScene.h"
+#include "Server.h"
 
 Player::Player(GameObject* parent):hModel_(-1)
 {
@@ -14,7 +16,8 @@ void Player::Initialize()
 	
 	Instantiate<Hammer>(this);
 
-	
+	pServer->InitWinSock();
+	listen = pServer->InitWinSock();
 }
 
 void Player::Update()
