@@ -37,7 +37,7 @@ public:
 	//ŠJ•ú
 	void Release() override;
 
-	bool IsPlayable() {}
+	bool isPlayable = true;
 
 	CliantPlayer pla;
 

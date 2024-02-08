@@ -16,26 +16,29 @@ void Player::Initialize()
 	
 	Instantiate<Hammer>(this);
 
-	pServer->InitWinSock();
 	listen = pServer->InitWinSock();
+	sock = pServer->CriateSocket
 }
 
 void Player::Update()
 {
-	if (Input::IsKey(DIK_W)) {
-		pla.transPlayer_.position_.z += 0.1;
-	}
+	if (isPlayable)
+	{
+		if (Input::IsKey(DIK_W)) {
+			pla.transPlayer_.position_.z += 0.1;
+		}
 
-	if (Input::IsKey(DIK_S)) {
-		pla.transPlayer_.position_.z -= 0.1;
-	}
+		if (Input::IsKey(DIK_S)) {
+			pla.transPlayer_.position_.z -= 0.1;
+		}
 
-	if (Input::IsKey(DIK_D)) {
-		pla.transPlayer_.position_.x += 0.1;
-	}
+		if (Input::IsKey(DIK_D)) {
+			pla.transPlayer_.position_.x += 0.1;
+		}
 
-	if (Input::IsKey(DIK_A)) {
-		pla.transPlayer_.position_.x -= 0.1;
+		if (Input::IsKey(DIK_A)) {
+			pla.transPlayer_.position_.x -= 0.1;
+		}
 	}
 }
 
