@@ -1,16 +1,28 @@
 #pragma once
+#include<cstdint>
 
-class Attack
-
+class IAttack
 {
-	//俺の脳ではこれしか出なかった←MUNOU
-	//変数や関数で足りなと思ったら適当に弄ってクレメンス
 public:
-	virtual ~Attack() {};
-	virtual void attack() = 0;      //攻撃力
-	virtual void atk_speed() = 0;   //攻撃速度
-	virtual void knock_back() = 0;  //ノックバック量
-	virtual void cooldown() = 0;    //クールダウン
-	virtual void decision() = 0;    //攻撃判定
-};
 
+	void AttackTo(int PID);//指定したプレイヤーに攻撃
+
+	struct AttackComp_SEND
+	{
+		float force;
+		float knock;
+		float speed;
+
+		uint8_t toPID;//攻撃するPlayer ID
+		uint8_t fromPID;//自身のPlayerI D
+
+		float val0, val1, val2, val3;
+	}comp;
+
+	struct AttackComp_RECV
+	{
+
+	};
+
+	//need collider
+};
