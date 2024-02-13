@@ -17,7 +17,7 @@ void Player::Initialize()
 	Instantiate<Hammer>(this);
 
 	listen = pServer->InitWinSock();
-	sock = pServer->CriateSocket
+	sock = pServer->CriateSocket(listen);
 }
 
 void Player::Update()

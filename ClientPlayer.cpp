@@ -10,32 +10,31 @@ const unsigned short SERVERPORT = 8888;
 // 送受信するメッセージの最大値
 const unsigned int MESSAGELENGTH = 1024;
 
-int WSASetup()
+
+int ClientPlayer::WSASetup()
 {
     WSADATA wsaData;
     int ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (ret != 0)
     {
-        std::cout << "Error: WSAStartup ( ErrorCode:" << ret << " )" << std::endl;
+        //WSAセットアップ失敗
         return 1;
     }
-    std::cout << "Success: WSAStartup" << std::endl;
     return 0;
 }
 
-int CreateSocket()
+int ClientPlayer::CreateSocket()
 {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0)
     {
-        std::cout << "Error: socket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //ソケット作成失敗
         return -1;
     }
-    std::cout << "Success: socket()" << std::endl;
     return sock;
 }
 
-int ConnectToServer(int sock)
+int ClientPlayer::ConnectToServer(int sock)
 {
     struct sockaddr_in serverAddr;
     memset(&serverAddr, 0, sizeof(serverAddr));
@@ -45,27 +44,25 @@ int ConnectToServer(int sock)
 
     if (connect(sock, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) != 0)
     {
-        std::cout << "Error: connect( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //接続失敗
         return 1;
     }
-    std::cout << "Success: connect()" << std::endl;
     return 0;
 }
 
-int SetSocketNonBlocking(int sock)
+int ClientPlayer::SetSocketNonBlocking(int sock)
 {
     unsigned long cmdarg = 0x01;
     int ret = ioctlsocket(sock, FIONBIO, &cmdarg);
     if (ret == SOCKET_ERROR)
     {
-        std::cout << "Error: ioctlsocket()" << std::endl;
+        //ノンブロッキングソケット作成失敗
         return 1;
     }
-    std::cout << "Success: ioctlsocket()" << std::endl;
     return 0;
 }
 
-void SendMessage(int sock)
+void ClientPlayer::SendMessa(int sock)
 {
     char buff[MESSAGELENGTH];
     std::cout << "Input message:";
@@ -80,7 +77,7 @@ void SendMessage(int sock)
     }
 }
 
-void ReceiveMessage(int sock)
+void ClientPlayer::ReceiveMessage(int sock)
 {
     char buff[MESSAGELENGTH];
     std::cout << "---wait message---" << std::endl;
@@ -105,7 +102,7 @@ void ReceiveMessage(int sock)
     }
 }
 
-void CleanUp(int sock)
+void ClientPlayer::CleanUp(int sock)
 {
     if (shutdown(sock, SD_BOTH) != 0)
     {
@@ -119,3 +116,4 @@ void CleanUp(int sock)
     {
     }
 }
+
