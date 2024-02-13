@@ -10,7 +10,6 @@ const unsigned short SERVERPORT = 8888;
 // 送受信するメッセージの最大値
 const unsigned int MESSAGELENGTH = 1024;
 
-
 int ClientPlayer::WSASetup()
 {
     WSADATA wsaData;
@@ -62,11 +61,13 @@ int ClientPlayer::SetSocketNonBlocking(int sock)
     return 0;
 }
 
-void ClientPlayer::SendMessa(int sock)
+void ClientPlayer::SendStruct(int sock)
 {
     char buff[MESSAGELENGTH];
     std::cout << "Input message:";
     std::cin >> buff;
+    
+
 
     int ret = send(sock, buff, strlen(buff), 0);
 
@@ -77,7 +78,7 @@ void ClientPlayer::SendMessa(int sock)
     }
 }
 
-void ClientPlayer::ReceiveMessage(int sock)
+void ClientPlayer::ReceiveStruct(int sock)
 {
     char buff[MESSAGELENGTH];
     std::cout << "---wait message---" << std::endl;

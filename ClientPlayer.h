@@ -6,14 +6,14 @@ class ClientPlayer
 {
 private:
 	uint8_t ID = 0;
-	struct IPlayer* pIPlayer = new IPlayer;
+	IPlayer* pIP = new IPlayer;
 
 public:
 	int WSASetup();
 	int CreateSocket();
 	int ConnectToServer(int sock);
 	int SetSocketNonBlocking(int sock);
-	void SendMessa(int sock);
-	void ReceiveMessage(int sock);
+	void SendStruct(int sock, );
+	void ReceiveStruct(int sock);
 	void CleanUp(int sock);
 };
