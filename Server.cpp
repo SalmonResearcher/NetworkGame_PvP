@@ -11,27 +11,22 @@
 const unsigned short SERVERPORT = 8888;
 // 送受信するメッセージの最大値
 const unsigned int MESSAGELENGTH = 1024;
-//構造体
-struct PlayerStates {
-    //Player* pPlayer;
 
-    int hp;
-    XMFLOAT3 position;
-};
 
-int Server::InitWinSock(int _ret){
+int Server::InitWinSock(){
     // WinSock初期化
     WSADATA wsaData;
-    _ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
-    if (_ret != 0)
+    int ret = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (ret != 0)
     {
-        
+        //WSADATAセットアップ　失敗！
+        return 1;
     }
-    //std::cout << "Success: WSAStartup" << std::endl;
-    return _ret;
+    //WSADATAのセットアップ完了
+    return ret;
     }
 
-int Server::CriateListenSock(int listen) {
+int Server::CriateListenSock() {
     // リスンソケットの作成
     int listenSock;
     listenSock = socket(AF_INET, SOCK_STREAM, 0);	// 0で自動設定
@@ -39,12 +34,11 @@ int Server::CriateListenSock(int listen) {
     if (listenSock < 0)
     {
         // エラーコードを出力
-        std::cout << "Error: socket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: socket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
         // 終了
         return 1;
     }
-    std::cout << "Success: socket()" << std::endl;
-    // bind
+    //ソケットの作成完了
 
     struct sockaddr_in bindAddr;	// bind用のソケットアドレス情報
     memset(&bindAddr, 0, sizeof(bindAddr));
@@ -55,138 +49,115 @@ int Server::CriateListenSock(int listen) {
     // ソケットアドレス情報設定	※固定のポート番号設定
     if (bind(listenSock, (struct sockaddr*)&bindAddr, sizeof(bindAddr)) != 0)
     {
-        // エラーコードを出力
-        std::cout << "Error: bind( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //バインド失敗
         // 終了
         return 1;
     }
 
-    std::cout << "Success: bind()" << std::endl;
+    //バインド完了
 
     // リスン状態に設定	キューのサイズ:1
     if ((listenSock, 1) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: listen( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: listen( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
         // 終了
         return 1;
     }
-    std::cout << "Success: listen()" << std::endl;
-    std::cout << "---wait connect---" << std::endl;
+    //リスンソケットOK
+    //相手方の接続待ち
+
 }
 
-int Server::CriateSocket(int sock, int listen) {
+int Server::CriateSocket(int listen) {
     struct sockaddr_in clientAddr;		// 接続要求をしてきたクライアントのソケットアドレス情報格納領域
     int addrlen = sizeof(clientAddr);	// clientAddrのサイズ
 
     // クライアントからのconnect()を受けて、コネクション確立済みのソケット作成
 
-    sock = accept(listen, (struct sockaddr*)&clientAddr, &addrlen);
+    int sock = accept(listen, (struct sockaddr*)&clientAddr, &addrlen);
     if (sock < 0)
     {
         // エラーコードを出力
-        std::cout << "Error: accept( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: accept( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
         // 終了
         return 1;
     }
-    std::cout << "Success: accept() " << std::endl;
+    //std::cout << "Success: accept() " << std::endl;
 
 }
 
-bool Recv(int sock, struct PlayerStates* value)
+bool Recv(int sock, struct IPlayer* playerID)
 {
-    struct PlayerStates recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
+    IPlayer recvplayerID;	// 受信データの格納領域...ネットワークバイトオーダー状態
     int ret;		// 成否の判定用
     // 受信
-    ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+    ret = recv(sock, (char*)&recvplayerID, sizeof(recvplayerID), 0);
     // 失敗
-    if (ret != sizeof(recvValue))
+    if (ret != sizeof(recvplayerID))
     {
         return false;
     }
 
     // 成功時の処理
-    value->hp = ntohl(recvValue.hp);	// int バイトオーダー変換
-    value->position.x = ntohl(recvValue.position.x);
+    recvplayerID.comp.pos.x = ntohl(playerID->comp.pos.x);
+    recvplayerID.comp.pos.y = ntohl(playerID->comp.pos.y);
+    recvplayerID.comp.pos.z = ntohl(playerID->comp.pos.z);
+
     return true;
 }
 
-    // 送受信部
-    while (true)
+bool Server::Send(int sock, IPlayer* playerID)
+{
+    struct IPlayer sendplayerID;	// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
+
+    // 送信
+    int ret = send(sock, (char*)&sendplayerID, sizeof(sendplayerID), 0);
+    // 失敗
+    if (ret != sizeof(sendplayerID))
     {
-        
-
-
-
-        char buff[MESSAGELENGTH];	// 送受信メッセージの格納領域
-
-        std::cout << "---wait message---" << std::endl;
-        // クライアントからのメッセージ受信
-        ret = recv(sock, buff, sizeof(buff) - 1, 0);
-        if (ret < 0)
-        {
-            // エラーコードを出力
-            std::cout << "Error: recv( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
-            // ぬける
-            break;
-        }
-        // 終端記号の追加
-        buff[ret] = '\0';
-
-        // 出力
-        std::cout << "Receive message : " << buff << std::endl;
-
-
-        // 送信メッセージの入力
-        std::cout << "Input message:";
-        std::cin >> buff;
-
-        // 送信
-        ret = send(sock, buff, strlen(buff), 0);
-        if (ret != strlen(buff))
-        {
-            // エラーコードを出力
-            std::cout << "Error: recv( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
-            // ぬける
-            break;
-        }
+        return false;
     }
 
+    // 成功
+    return true;
+}
+
+int Server::Shutdown(int sock, int listen,int ret){
     // 送受信ともに切断
     // shutdown(sock, 0x02);
     if (shutdown(sock, SD_BOTH) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: shutdown( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: shutdown( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
     }
-    std::cout << "Success: shutdown() " << std::endl;
+    //std::cout << "Success: shutdown() " << std::endl;
 
 
     // ソケットの破棄
     if (closesocket(sock) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
     }
-    std::cout << "Success: closesocket() " << std::endl;
+    //std::cout << "Success: closesocket() " << std::endl;
 
-    if (closesocket(listenSock) != 0)
+    if (closesocket(listen) != 0)
     {
         // エラーコードを出力
-        std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
+        //std::cout << "Error: closesocket( ErrorCode: " << WSAGetLastError() << ")" << std::endl;
     }
-    std::cout << "Success: closesocket() " << std::endl;
+    //std::cout << "Success: closesocket() " << std::endl;
 
     // WinSock終了処理
     if (WSACleanup() != 0)
     {
-        std::cout << "Error: WSACleanup ( ErrorCode:" << ret << " )" << std::endl;
+        //std::cout << "Error: WSACleanup ( ErrorCode:" << ret << " )" << std::endl;
     }
-    std::cout << "Success: WSACleanup" << std::endl;
+    //std::cout << "Success: WSACleanup" << std::endl;
 
 
 
 
     return 0;
-}*/
-
+}

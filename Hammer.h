@@ -1,29 +1,15 @@
 #pragma once
 #include "Engine/GameObject.h"
-
-class IPlayer;
-class Server;
-
-class Player :
-    public GameObject
+class Hammer :
+	public GameObject
 {
 private:
 	int hModel_;
-	struct CliantPlayer
-	{
-		Transform transPlayer_;
-	};
-
-	IPlayer* pID;
-
-	Server* pServer;
-	int listen = 0;
-	int sock = 0;
 
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）
-	Player(GameObject* parent);
+	Hammer(GameObject* parent);
 
 	//初期化
 	void Initialize() override;
@@ -37,9 +23,5 @@ public:
 	//開放
 	void Release() override;
 
-	bool isPlayable = true;
-
-	CliantPlayer pla;
-
+	void Animation(int start, int end, int speed);
 };
-
