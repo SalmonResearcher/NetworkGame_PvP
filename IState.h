@@ -7,10 +7,12 @@ public:
 
 	enum class Mask
 	{
-		Immovable = 1,
-		Healing = Immovable * 2,
-		WScore = Healing *2,
-		Death = WScore *2,
+		Immovable			= 1,
+		Healing				= Immovable * 2,
+		WScore				= Healing * 2,
+		Death				= WScore * 2,
+		Landing				= Death * 2,
+
 	};
 
 	struct StateComp
@@ -21,9 +23,10 @@ public:
 	};
 
 	virtual void State() = 0;
+	virtual void Run() = 0;
+
 
 private:
 
-	virtual void Run() = 0;
 };
 

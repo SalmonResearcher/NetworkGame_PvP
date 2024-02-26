@@ -17,10 +17,11 @@ public:
 
 		float val0, val1, val2, val3;
 	}comp;
+	virtual void Run() = 0;
+
 
 private:
 
-	virtual void Run() = 0;
 	//need collider
 };
 

@@ -4,13 +4,9 @@
 #include "IDifence.h"
 #include "IJump.h"
 #include "IState.h"
+#include "MACRO.h"
 
 using namespace DirectX;
-
-typedef XMFLOAT3 Position;
-typedef XMFLOAT3 Rotation;
-typedef XMFLOAT3 Scale;
-typedef XMFLOAT3 AnimScene;
 
 class IAttack;
 class IJump;
@@ -27,7 +23,7 @@ public:
 	IJump* jmp;
 	IState* stt;
 
-	struct SPlayerComp
+	struct SPlayerComp	//send to server
 	{
 		SPlayerComp();
 
@@ -52,10 +48,18 @@ public:
 
 	}comp;
 
+	struct GPlayerComp	//get from server
+	{
+
+	}recv;
+
+	virtual void Update() = 0;
+
 public:
 
 
 private:
+	void Run();
 
 
 private:

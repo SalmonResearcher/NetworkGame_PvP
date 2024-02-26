@@ -12,9 +12,10 @@ public:
 	}comp;
 
 	virtual void Difence() = 0;
+	virtual void Run() = 0;
+
 
 private:
 
-	virtual void Run() = 0;
 };
 
