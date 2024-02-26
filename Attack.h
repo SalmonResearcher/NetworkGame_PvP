@@ -50,5 +50,5 @@ public:
 
 	void InitCollider(float posX, float posY, float width, float height);
 
-	bool isCollide(const Collider& collide);
+	//bool isCollide(const Collider& collide);
 };
