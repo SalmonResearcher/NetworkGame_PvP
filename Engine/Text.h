@@ -9,6 +9,11 @@ class Text
 	char fileName_[MAX_PATH];
 	unsigned int rowLength_;
 
+	float scale;
+	float textR;
+	float textG;
+	float textB;
+
 public:
 	Text();
 	~Text();
@@ -40,7 +45,11 @@ public:
 	void Release();
 
 	void SetScale(float sc) { scale = sc; }
-private:
-	float scale;
+
+	void SetColor(float r, float g, float b) {
+		textR = r;
+		textG = g;
+		textB = b;
+	}
 };
 

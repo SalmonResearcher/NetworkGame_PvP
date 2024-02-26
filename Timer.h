@@ -20,7 +20,7 @@ public:
 
 private:
 	int frame;
-	Text* num;
+	Text* pText;
 	bool active;
 	int drawX;
 	int drawY;
