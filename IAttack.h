@@ -1,11 +1,12 @@
 #pragma once
 #include<cstdint>
+#include"Engine/Collider.h"
 
 class IAttack
 {
 public:
 
-	void AttackTo(int PID);
+	virtual void Attack() = 0;
 
 
 	struct AttackComp
@@ -14,12 +15,12 @@ public:
 		float knock;
 		float speed;
 
-		uint8_t toPID;
-		uint8_t fromPID;
-
 		float val0, val1, val2, val3;
 	}comp;
 
+private:
+
+	virtual void Run() = 0;
 	//need collider
 };
 

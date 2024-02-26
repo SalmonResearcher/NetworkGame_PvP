@@ -1,7 +1,16 @@
 #pragma once
 #include<DirectXMath.h>
+#include "IAttack.h"
+#include "IDifence.h"
+#include "IJump.h"
+#include "IState.h"
 
-using DirectX::XMFLOAT3;
+using namespace DirectX;
+
+typedef XMFLOAT3 Position;
+typedef XMFLOAT3 Rotation;
+typedef XMFLOAT3 Scale;
+typedef XMFLOAT3 AnimScene;
 
 class IAttack;
 class IJump;
@@ -18,12 +27,13 @@ public:
 	IJump* jmp;
 	IState* stt;
 
-	struct PlayerComp
+	struct SPlayerComp
 	{
-		PlayerComp();
+		SPlayerComp();
 
-		XMFLOAT3 pos;
-		uint32_t Anim;
+		Scale size;
+
+		AnimScene Anim;
 		uint32_t model;
 
 		uint8_t CID;
@@ -33,8 +43,22 @@ public:
 		float val1;
 		float val2;
 		float val3;
-		//----------add some component whene neccesary
+
+		//----------add some component when neccesary
+		IAttack::AttackComp s_atk;
+		IDifence::DifenceComp s_dif;
+		IJump::JumpComp s_jmp;
+		IState::StateComp s_stt;
 
 	}comp;
+
+public:
+
+
+private:
+
+
+private:
+
 };
 

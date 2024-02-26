@@ -3,12 +3,18 @@
 
 class IDifence
 {
-	struct
+public:
+	struct DifenceComp
 	{
-		uint8_t fromPID;
 		float difence;
 
 		float val0, val1, val2, val3;
 	}comp;
+
+	virtual void Difence() = 0;
+
+private:
+
+	virtual void Run() = 0;
 };
 
