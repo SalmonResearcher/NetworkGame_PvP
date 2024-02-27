@@ -180,6 +180,11 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="ClientPlayer.h" />
+    <ClInclude Include="IAttack.h" />
+    <ClInclude Include="IDifence.h" />
+    <ClInclude Include="IJump.h" />
+    <ClInclude Include="IState.h" />
+    <ClInclude Include="MACRO.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

@@ -182,7 +182,12 @@
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\Transform.h" />
     <ClInclude Include="Hammer.h" />
+    <ClInclude Include="IAttack.h" />
+    <ClInclude Include="IDifence.h" />
+    <ClInclude Include="IJump.h" />
     <ClInclude Include="IPlayer.h" />
+    <ClInclude Include="IState.h" />
+    <ClInclude Include="MACRO.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Stage.h" />
