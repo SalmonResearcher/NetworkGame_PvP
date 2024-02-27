@@ -10,9 +10,9 @@ private:
 
 public:
 	int InitWinSock();
-	int CriateListenSock();
-	int CriateSocket(int listen);
-	bool Recv(int sock, IPlayer* playerID);
-	bool Send(int sock, IPlayer* playerID);
+	int UDPSock();
+	int Bind(int sock);
+	bool Recv(int sock, IPlayer::SPlayerComp* recvValue);
+	bool Send(int sock, IPlayer::SPlayerComp* playerID);
 	int Shutdown(int sock, int listen, int ret);
 };
