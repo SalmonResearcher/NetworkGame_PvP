@@ -9,6 +9,8 @@ public:
 	struct DifenceComp
 	{
 		float difence;
+		float gauge;
+		float consume;
 
 		float val0, val1, val2, val3;
 	}comp;
