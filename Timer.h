@@ -2,6 +2,8 @@
 #include "Engine/GameObject.h"
 #include "Engine/Text.h"
 
+static const int FPS = 60;
+
 class Timer : public GameObject
 {
 public:
@@ -20,8 +22,9 @@ public:
 
 private:
 	int frame;
-	Text* pText;
+	int limitFrame;
+	int drawX, drawY;
 	bool active;
-	int drawX;
-	int drawY;
+
+	Text* pText;
 };

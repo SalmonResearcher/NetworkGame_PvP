@@ -1,9 +1,7 @@
 #include "Timer.h"
 
-static const int FPS = 60;
-
 Timer::Timer(GameObject* obj) : GameObject(obj, "Timer"),
-    pText(nullptr), frame(0), active(false), drawX(0), drawY(0)
+    pText(nullptr), frame(0), active(false), drawX(30), drawY(30), limitFrame(0)
 {
 }
 
@@ -25,11 +23,6 @@ void Timer::Update()
 	if (active) {
 		if (frame > 0) {
 			frame--;
-		}
-
-		if (frame == 0)
-		{
-			pText->Draw(30, 30, "GAME OVER");
 		}
 	}
 }
@@ -53,12 +46,12 @@ void Timer::Draw()
 void Timer::Release()
 {
 	pText->Release();
-	//delete pText;
 }
 
 void Timer::SetLimit(float seconds)
 {
-	frame = 120 * (int)(seconds * FPS);
+	limitFrame = FPS * 120 * seconds;
+	frame = limitFrame;
 }
 
 void Timer::Start()
