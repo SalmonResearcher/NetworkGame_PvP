@@ -45,11 +45,5 @@ public:
 	void Release();
 
 	void SetScale(float sc) { scale = sc; }
-
-	void SetColor(float r, float g, float b) {
-		textR = r;
-		textG = g;
-		textB = b;
-	}
 };
 

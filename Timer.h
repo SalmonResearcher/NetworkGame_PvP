@@ -6,6 +6,13 @@ static const int FPS = 60;
 
 class Timer : public GameObject
 {
+private:
+	int frame;
+	int limitFrame;
+	int drawX, drawY; //XÇ∆YÇÃà íuç¿ïW
+	bool active;      //ìÆÇ¢ÇƒÇÈÇ©Ç«Ç§Ç©
+
+	Text* pText;
 public:
 	Timer(GameObject* obj);
 	~Timer();
@@ -19,12 +26,4 @@ public:
 	void Start();
 	void Stop();
 	bool IsFinished();
-
-private:
-	int frame;
-	int limitFrame;
-	int drawX, drawY;
-	bool active;
-
-	Text* pText;
 };

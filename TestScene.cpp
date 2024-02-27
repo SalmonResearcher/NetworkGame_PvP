@@ -1,4 +1,5 @@
 #include "TestScene.h"
+#include "Timer.h"
 
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
@@ -9,6 +10,7 @@ TestScene::TestScene(GameObject * parent)
 //初期化
 void TestScene::Initialize()
 {
+	Instantiate<Timer>(this);
 }
 
 //更新
