@@ -1,6 +1,8 @@
 #pragma once
 #include<cstdint>
 
+class IPlayer;
+
 class IState
 {
 public:
@@ -26,7 +28,9 @@ public:
 	virtual void Run() = 0;
 
 
-private:
+protected:
+
+	IPlayer* parent;
 
 };
 

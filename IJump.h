@@ -1,6 +1,8 @@
 #pragma once
 #include"MACRO.h"
 
+class IPlayer;
+
 class IJump
 {
 public :
@@ -20,7 +22,9 @@ public :
 		float val0, val1, val2, val3;
 	};
 
-private:
+protected:
+
+	IPlayer* parent;
 
 };
 

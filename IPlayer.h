@@ -48,18 +48,13 @@ public:
 
 	}comp;
 
-	struct GPlayerComp	//get from server
-	{
-
-	}recv;
-
 	virtual void Update() = 0;
 
 public:
 
 
-private:
-	void Run();
+protected:
+	virtual void Run();
 
 
 private:

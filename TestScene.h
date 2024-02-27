@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include"Engine/Image.h"
 
 //テストシーンを管理するクラス
 class TestScene : public GameObject
@@ -20,4 +21,14 @@ public:
 
 	//開放
 	void Release() override;
+
+private:
+
+	uint8_t bk;
+	
+	uint8_t select;
+
+	uint8_t exit;
+	uint8_t enter;
+
 };

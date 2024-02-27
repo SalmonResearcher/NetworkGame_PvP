@@ -2,6 +2,8 @@
 #include<cstdint>
 #include"Engine/Collider.h"
 
+class IPlayer;
+
 class IAttack
 {
 public:
@@ -14,14 +16,17 @@ public:
 		float force;
 		float knock;
 		float speed;
+		float cool;
 
 		float val0, val1, val2, val3;
 	}comp;
 	virtual void Run() = 0;
 
+	IAttack(IPlayer* p);
 
-private:
+protected:
 
-	//need collider
+	IPlayer* parent;
+
 };
 

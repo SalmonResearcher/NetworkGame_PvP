@@ -1,6 +1,8 @@
 #pragma once
 #include<cstdint>
 
+class IPlayer;
+
 class IDifence
 {
 public:
@@ -15,7 +17,9 @@ public:
 	virtual void Run() = 0;
 
 
-private:
+protected:
+
+	IPlayer* parent;
 
 };
 
