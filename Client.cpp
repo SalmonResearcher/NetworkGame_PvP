@@ -12,9 +12,6 @@
 
 #pragma comment( lib, "ws2_32.lib" )
 
-bool Send(int sock, IPlayer::SPlayerComp* value);
-bool Recv(int sock, IPlayer::SPlayerComp* value);
-
 // ポート番号
 const unsigned short SERVERPORT = 8888;
 // 送受信するメッセージの最大値
@@ -101,11 +98,11 @@ bool Client::Recv(int sock, IPlayer::DATA* recvComp)
 	}
 
 	// 成功時の処理
-	recvComp->posX = ntohl(recvVal.posX);								// int バイトオーダー変換
-	recvComp->posY = ntohl(recvVal.posY);								// int バイトオーダー変換
-	recvComp->posZ = ntohl(recvVal.posZ);								// int バイトオーダー変換
-	recvComp->rotateY = ntohl(recvVal.rotateY);								// int バイトオーダー変換
-	recvComp->attack = ntohl(recvVal.attack);								// int バイトオーダー変換
+	recvComp->posX = ntohl(recvVal.posX);								// バイトオーダー変換
+	recvComp->posY = ntohl(recvVal.posY);
+	recvComp->posZ = ntohl(recvVal.posZ);
+	recvComp->rotateY = ntohl(recvVal.rotateY);
+	recvComp->attack = ntohl(recvVal.attack);
 
 	return true;
 }
@@ -120,11 +117,12 @@ bool Client::Recv(int sock, IPlayer::DATA* recvComp)
 bool Client::Send(int sock, IPlayer::DATA* sendComp)
 {
 	IPlayer::DATA sendData;				// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
-	sendData.posX = htonl(sendComp->posX);	//バイトオーダー変換
-	sendData.posY = htonl(sendComp->posY);	//バイトオーダー変換
-	sendData.posZ = htonl(sendComp->posZ);	//バイトオーダー変換
-	sendData.rotateY = htonl(sendComp->rotateY);	//バイトオーダー変換
-	sendData.attack = htonl(sendComp->attack);	//バイトオーダー変換
+
+	sendData.posX = htonl(sendComp->posX);
+	sendData.posY = htonl(sendComp->posY);
+	sendData.posZ = htonl(sendComp->posZ);
+	sendData.rotateY = htonl(sendComp->rotateY);
+	sendData.attack = htonl(sendComp->attack);
 
 	int ret;		// 成否の判定用
 	// 送信

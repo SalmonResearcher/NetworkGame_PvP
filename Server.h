@@ -13,5 +13,4 @@ public:
 	int Bind(int sock);
 	bool Recv(int sock, DATA* value);
 	bool Send(int sock, DATA* value);
-	//int Shutdown(int sock, int listen, int ret);
 };
