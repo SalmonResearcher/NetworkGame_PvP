@@ -104,7 +104,6 @@ bool Server::Recv(int sock, IPlayer::SPlayerComp* value)
     int size = sizeof(recvValue);
     char* buff = new char[size];
 
-    //
     for()
     {
         for(int l = 0; l < size; l++)
