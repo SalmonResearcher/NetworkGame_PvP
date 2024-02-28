@@ -75,41 +75,54 @@ int Server::Bind(int sock)
 
 }
 
-bool Server::Recv(int sock, DATA* value)
+bool Server::Recv(int sock, IPlayer::SPlayerComp* value)
 {
-        DATA recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
-        int ret;		// 成否の判定用
+    //IPlayer::DATA recvValue;
+    IPlayer::SPlayerComp recvValue[2];	//受信データの格納領域...ネットワークバイトオーダー状態
+    int ret;		//成否の判定用
 
-        // 受信
-        ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
-        // 失敗
-        if (ret != sizeof(recvValue))
+    //受信
+    ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+
+    //失敗
+    if (ret != sizeof(recvValue))
+    {
+        //送られたが、データがなかった時
+        if (WSAGetLastError() == WSAEWOULDBLOCK)
         {
-            //送られたが、データがなかった時
-            if (WSAGetLastError() == WSAEWOULDBLOCK)
-            {
-                Debug::Log("Recv EMPTY Data!", true);
-                return true;
-            }
-
-            //そもそも送られもしなかった時
-            else
-            {
-                Debug::Log("Error : Recv!", true);
-                return false;
-            }
+            Debug::Log("Recv EMPTY Data!", true);
+            return true;
         }
+        //そもそも送られもしなかった時
+        else
+        {
+            Debug::Log("Error : Recv!", true);
+            return false;
+        }
+    }
+
+    int size = sizeof(recvValue);
+    char* buff = new char[size];
+
+    //
+    for()
+    {
+        for(int l = 0; l < size; l++)
+        {
+            buff[l] = ;
+        }
+    }
 
         //送られたし、データもあっていわゆる成功時の処理
-        value->posX = ntohl(recvValue.posX);		    //バイトオーダー変換
-        value->posY = ntohl(recvValue.posY);		    //バイトオーダー変換
-        value->posZ = ntohl(recvValue.posZ);	    	//バイトオーダー変換
         
-        value->rotateY = ntohl(recvValue.rotateY);  //バイトオーダー変換
-        value->attack = ntohl(recvValue.attack);	    //バイトオーダー変換
 
+        //value->posX = ntohl(recvValue.posX);        //バイトオーダー変換
+        //value->posY = ntohl(recvValue.posY);        //バイトオーダー変換
+        //value->posZ = ntohl(recvValue.posZ);        //バイトオーダー変換
+        //
+        //value->rotateY = ntohl(recvValue.rotateY);  //バイトオーダー変換
+        //value->attack = ntohl(recvValue.attack);    //バイトオーダー変換
         return true;
-    
 }
 
 bool Server::Send(int sock, IPlayer::DATA* value)
@@ -118,8 +131,8 @@ bool Server::Send(int sock, IPlayer::DATA* value)
 
     //バイトオーダー変換
     sendValue.posX = htonl(value->posX);
-    sendValue.posY = htonl(value->posX);
-    sendValue.posZ = htonl(value->posX);
+    sendValue.posY = htonl(value->posY);
+    sendValue.posZ = htonl(value->posZ);
 
     sendValue.rotateY = htonl(value->rotateY);
     sendValue.attack = htonl(value->attack);

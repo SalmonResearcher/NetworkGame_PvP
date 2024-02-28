@@ -50,8 +50,6 @@ public:
 
 	struct GPlayerComp	//get from server
 	{
-		XMFLOAT3 size;
-
 	};
 
 	//‚à‚Á‚ÆŠÈ’P‚É‚Å‚«‚é‚Í‚¸‚¾‚Æv‚Á‚Äì‚Á‚½\‘¢‘Ì
