@@ -13,37 +13,6 @@ const unsigned short SERVERPORT = 8888;
 const unsigned int MESSAGELENGTH = 1024;
 
 
-int main()
-{
-
-
-    while (true)
-    {
-        char buff[MESSAGELENGTH];			// 送受信メッセージの格納領域
-        struct sockaddr_in fromAddr;		// 送信元アドレスの格納領域
-        int fromlen = sizeof(fromAddr);		// fromAddrのサイズ
-
-        // 受信待ち
-        std::cout << "wait..." << std::endl;
-
-        // 受信	\0は送ってこないバージョン
-
-        // 送信用メッセージの入力
-        std::cout << "Input message : ";
-        std::cin >> buff;
-
-        // 送信！
-        ret = sendto(sock, buff, strlen(buff), 0, (struct sockaddr*)&fromAddr, fromlen);
-        if (ret != strlen(buff))
-        {
-            std::cout << "Error: sendto ( ErrorCode:" << WSAGetLastError() << " )" << std::endl;
-            return 1;
-        }
-    }
-
-    return 0;
-}
-
 //1，winSock作成
 int Server::InitWinSock()
 {
@@ -86,21 +55,81 @@ int Server::Bind(int sock)
 
     if (bind(sock, (struct sockaddr*)&bindAddr, sizeof(bindAddr)) < 0)
     {
-        std::cout << "Error: bind ( ErrorCode:" << WSAGetLastError() << " )" << std::endl;
+        Debug::Log("Error: bind ( ErrorCode:");
+        Debug::Log(WSAGetLastError());
+        Debug::Log(" )",true);
         return 1;
     }
-    std::cout << "Success: bind" << std::endl;
+    Debug::Log("Success: bind", true);
+    // ソケットsockをノンブロッキングソケットにする
+        unsigned long cmdarg = 0x01;
+    int ret = ioctlsocket(sock, FIONBIO, &cmdarg);
+    if (ret == SOCKET_ERROR)
+    {
+        OutputDebugString("ノンブロッキングソケット化失敗\n");
+        closesocket(sock);  // ソケットを閉じる
+        return false;
+    }
+
+    return true;
+
 }
 
-bool Server::Recv(int sock, IPlayer::SPlayerComp* recvValue)
+bool Server::Recv(int sock, DATA* value)
 {
-    int ret = recvfrom(sock, buff, sizeof(buff) - 1, 0, (struct sockaddr*)&fromAddr, &fromlen);
-    if (ret < 0)
-    {
-        std::cout << "Error: recvfrom ( ErrorCode:" << WSAGetLastError() << " )" << std::endl;
-        return 1;
-    }
-    buff[ret] = '\0';	// 終端記号追加
-    std::cout << "Receive message : " << buff << std::endl;
+        DATA recvValue;	// 受信データの格納領域...ネットワークバイトオーダー状態
+        int ret;		// 成否の判定用
 
+        // 受信
+        ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+        // 失敗
+        if (ret != sizeof(recvValue))
+        {
+            //送られたが、データがなかった時
+            if (WSAGetLastError() == WSAEWOULDBLOCK)
+            {
+                Debug::Log("Recv EMPTY Data!", true);
+                return true;
+            }
+
+            //そもそも送られもしなかった時
+            else
+            {
+                Debug::Log("Error : Recv!", true);
+                return false;
+            }
+        }
+
+        //送られたし、データもあっていわゆる成功時の処理
+        value->posX = ntohl(recvValue.posX);		    //バイトオーダー変換
+        value->posY = ntohl(recvValue.posY);		    //バイトオーダー変換
+        value->posZ = ntohl(recvValue.posZ);	    	//バイトオーダー変換
+        
+        value->rotateY = ntohl(recvValue.rotateY);  //バイトオーダー変換
+        value->attack = ntohl(recvValue.attack);	    //バイトオーダー変換
+
+        return true;
+    
+}
+
+bool Server::Send(int sock, IPlayer::DATA* value)
+{
+    IPlayer::DATA sendValue;
+
+    //バイトオーダー変換
+    sendValue.posX = htonl(value->posX);
+    sendValue.posY = htonl(value->posX);
+    sendValue.posZ = htonl(value->posX);
+
+    sendValue.rotateY = htonl(value->rotateY);
+    sendValue.attack = htonl(value->attack);
+    
+    int ret;
+    ret = send(sock, (char*)&sendValue, sizeof(sendValue), 0);
+    if (ret != 0)
+    {
+        OutputDebugString("Error : Send\n");
+        return false;
+    }
+    return 1;
 }

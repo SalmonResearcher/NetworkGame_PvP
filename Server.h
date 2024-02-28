@@ -1,18 +1,17 @@
 #pragma once
+#include "IPlayer.h"
 
-class IPlayer;
 
 //テストシーンを管理するクラス
-class Server
+class Server :IPlayer
 {
 private:
-	uint8_t ID = 0;
 
 public:
 	int InitWinSock();
 	int UDPSock();
 	int Bind(int sock);
-	bool Recv(int sock, IPlayer::SPlayerComp* recvValue);
-	bool Send(int sock, IPlayer::SPlayerComp* playerID);
-	int Shutdown(int sock, int listen, int ret);
+	bool Recv(int sock, DATA* value);
+	bool Send(int sock, DATA* value);
+	//int Shutdown(int sock, int listen, int ret);
 };

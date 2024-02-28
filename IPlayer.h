@@ -52,7 +52,19 @@ public:
 	{
 		XMFLOAT3 size;
 
-	}recv;
+	};
+
+	//もっと簡単にできるはずだと思って作った構造体
+	struct DATA {
+		float posX;	
+		float posY;
+		float posZ;
+
+		float rotateY;	//プレイヤーの回転
+		int attack;	//攻撃しているかどうか
+	};
+
+
 
 	virtual void Update() = 0;
 

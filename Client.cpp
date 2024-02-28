@@ -20,37 +20,6 @@ const unsigned short SERVERPORT = 8888;
 // 送受信するメッセージの最大値
 const unsigned int MESSAGELENGTH = 1024;
 
-int main()
-{
-	IPlayer::SPlayerComp* comp1;
-	IPlayer::SPlayerComp* compO;
-	int sock;
-
-	InitWinSock();
-	sock = UDPSock();
-	NonBlocking(sock);
-	// 宛先となるサーバのソケットアドレス情報の割り当て
-	struct sockaddr_in toAddr;
-	memset(&toAddr, 0, sizeof(toAddr));
-	toAddr.sin_family = AF_INET;
-	toAddr.sin_port = htons(SERVERPORT);
-	inet_pton(AF_INET, "127.0.0.1", &toAddr.sin_addr.s_addr);
-
-	Debug::Log("Success: connect()",true);
-
-	while (true)
-	{
-		//送信
-		Send(sock, comp1);
-
-		// 受信
-		Recv(sock, compO);
-		std::cout << "受信相手の位置 = { " << compO->size.x << ", " << compO->size.y << ", " << compO->size.z << " }" << std::endl;
-
-		comp1->size.x += 1;
-	}
-
-}
 
 // 1、winsocket準備
 int Client::InitWinSock()
@@ -82,6 +51,14 @@ int Client::UDPSock()
 		return 1;	//終了
 	}
 	Debug::Log("Success: socket", true);
+
+	// 宛先となるサーバのソケットアドレス情報の割り当て
+	struct sockaddr_in toAddr;
+	memset(&toAddr, 0, sizeof(toAddr));
+	toAddr.sin_family = AF_INET;
+	toAddr.sin_port = htons(SERVERPORT);
+	inet_pton(AF_INET, "127.0.0.1", &toAddr.sin_addr.s_addr);
+
 	return sock;
 }
 
@@ -110,9 +87,9 @@ int Client::NonBlocking(int sock)
 //	戻り値
 //		成功 : true
 //		失敗 : false
-bool Client::Recv(int sock, IPlayer::SPlayerComp* recvComp)
+bool Client::Recv(int sock, IPlayer::DATA* recvComp)
 {
-	IPlayer::GPlayerComp recvVal;	// 受信データの格納領域...ネットワークバイトオーダー状態
+	IPlayer::DATA recvVal;	// 受信データの格納領域...ネットワークバイトオーダー状態
 	int ret;		// 成否の判定用
 	// 受信
 	ret = recv(sock, (char*)&recvVal, sizeof(recvVal), 0);
@@ -124,9 +101,11 @@ bool Client::Recv(int sock, IPlayer::SPlayerComp* recvComp)
 	}
 
 	// 成功時の処理
-	recvComp->size.x = ntohl(recvVal.size.x);								// int バイトオーダー変換
-	recvComp->size.y = ntohl(recvVal.size.y);								// int バイトオーダー変換
-	recvComp->size.y = ntohl(recvVal.size.z);								// int バイトオーダー変換
+	recvComp->posX = ntohl(recvVal.posX);								// int バイトオーダー変換
+	recvComp->posY = ntohl(recvVal.posY);								// int バイトオーダー変換
+	recvComp->posZ = ntohl(recvVal.posZ);								// int バイトオーダー変換
+	recvComp->rotateY = ntohl(recvVal.rotateY);								// int バイトオーダー変換
+	recvComp->attack = ntohl(recvVal.attack);								// int バイトオーダー変換
 
 	return true;
 }
@@ -138,12 +117,14 @@ bool Client::Recv(int sock, IPlayer::SPlayerComp* recvComp)
 //	戻り値
 //		成功 : true
 //		失敗 : false
-bool Client::Send(int sock, IPlayer::SPlayerComp* sendComp)
+bool Client::Send(int sock, IPlayer::DATA* sendComp)
 {
-	IPlayer::SPlayerComp sendData;				// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
-	sendData.size.x = htonl(sendComp->size.x);	// int バイトオーダー変換
-	sendData.size.y = htonl(sendComp->size.y);	// int バイトオーダー変換
-	sendData.size.z = htonl(sendComp->size.z);	// int バイトオーダー変換
+	IPlayer::DATA sendData;				// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
+	sendData.posX = htonl(sendComp->posX);	//バイトオーダー変換
+	sendData.posY = htonl(sendComp->posY);	//バイトオーダー変換
+	sendData.posZ = htonl(sendComp->posZ);	//バイトオーダー変換
+	sendData.rotateY = htonl(sendComp->rotateY);	//バイトオーダー変換
+	sendData.attack = htonl(sendComp->attack);	//バイトオーダー変換
 
 	int ret;		// 成否の判定用
 	// 送信
@@ -151,12 +132,12 @@ bool Client::Send(int sock, IPlayer::SPlayerComp* sendComp)
 	// 失敗
 	if (ret != sizeof(sendComp))
 	{
-		std::cout << "------送信失敗------" << std::endl;
+		OutputDebugString("送信失敗\n");
 
 		return false;
 	}
 
-	std::cout << "------送信成功------" << std::endl;
-	// 成功
+	OutputDebugString("送信成功\n");
+		// 成功
 	return true;
 }
