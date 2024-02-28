@@ -2,6 +2,7 @@
 #include "Engine/GameObject.h"
 #include<cstdint>
 #include"Engine//Model.h"
+#include"Player.h"
 
 constexpr uint8_t PLAYER_AMOUNT = 4;
 
@@ -19,7 +20,7 @@ public:
 	void Release() override;
 
 private:
-	uint8_t players_model[PLAYER_AMOUNT];
+	Player* pl[PLAYER_AMOUNT];
 
 	uint8_t ground;
 };

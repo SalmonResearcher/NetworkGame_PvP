@@ -1,4 +1,5 @@
 #include "PlayerMethod.h"
+#include"IPlayer.h"
 
 DashAttack::DashAttack(IPlayer* p):IAttack(p)
 {
@@ -12,6 +13,8 @@ void DashAttack::Run()
 
 void DashAttack::Attack()
 {
+	parent->comp.msg.info[parent->comp.msg.cnt].pos = parent->comp.s_jmp.pos;
+
 	comp.cool = 12;
 	comp.force = 8;
 	comp.speed = 12;
@@ -30,6 +33,8 @@ void JumpAttack::Run()
 
 void JumpAttack::Attack()
 {
+	parent->comp.msg.info[parent->comp.msg.cnt].pos = parent->comp.s_jmp.pos;
+
 	comp.cool = 40;
 	comp.force = 20;
 	comp.speed = 6;
@@ -48,6 +53,8 @@ void NeutralAttack::Run()
 
 void NeutralAttack::Attack()
 {
+	parent->comp.msg.info[parent->comp.msg.cnt].pos = parent->comp.s_jmp.pos;
+
 	comp.cool = 3;
 	comp.force = 7;
 	comp.speed = 4;

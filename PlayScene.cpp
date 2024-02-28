@@ -11,6 +11,10 @@ PlayScene::PlayScene(GameObject* parent)
 
 void PlayScene::Initialize()
 {
+	for (auto i = 0u; i < PLAYER_AMOUNT; ++i) {
+
+		pl[i] = Instantiate<Player>(this);
+	}
 }
 
 void PlayScene::Update()

@@ -5,6 +5,7 @@
 #include "IJump.h"
 #include "IState.h"
 #include "MACRO.h"
+#include "ColliderMessage.h"
 
 using namespace DirectX;
 
@@ -45,10 +46,9 @@ public:
 		IDifence::DifenceComp s_dif;
 		IJump::JumpComp s_jmp;
 		IState::StateComp s_stt;
-
+		ColliderMessage msg;
+		ColliderInfo pc;
 	}comp;
-
-	virtual void Update() = 0;
 
 public:
 
