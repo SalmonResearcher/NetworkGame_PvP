@@ -150,7 +150,7 @@ bool Server::Send(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* 
     return true;
 }
 
-bool Server::Update()
+bool Server::Update(IPlayer::SPlayerComp value1,IPlayer::SPlayerComp value2)
 {
-
+    value1.s_jmp.pos.x;
 }
