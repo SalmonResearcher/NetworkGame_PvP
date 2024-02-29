@@ -24,6 +24,9 @@
       <UniqueIdentifier>{47a6a3f5-8cfd-436b-8d58-beccd108f3f3}</UniqueIdentifier>
       <Extensions>hlsl</Extensions>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{8fab3d28-e0f7-41ef-aaca-6c1e90c1c7ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\BoxCollider.cpp">
@@ -96,8 +99,30 @@
     <ClCompile Include="Engine\VFX.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
+
     <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="IPlayer.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMethod.cpp" />
+    <ClCompile Include="IState.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="IAttack.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="IDifence.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="IJump.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderMessage.cpp" />
+    <ClCompile Include="MACRO.cpp" />
+
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -170,8 +195,28 @@
     <ClInclude Include="Engine\VFX.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="Attack.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="IAttack.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IJump.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IState.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="IDifence.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="MACRO.h" />
+    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="IPlayer.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderMessage.h" />
+    <ClInclude Include="PlayerMethod.h" />
+
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
