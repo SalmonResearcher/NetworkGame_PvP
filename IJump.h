@@ -11,15 +11,15 @@ public :
 
 	struct JumpComp
 	{
-		Position pos;
+		Position pos;//Œ»İ‚ÌêŠ
 		Rotation rot;
-		
-		XMFLOAT3 vec;
-		float speed;
+		Position vec;//ˆÚ“®‚µ‚½‚¢•ûŒüƒxƒNƒgƒ‹
+		float speed;//ã‚Ö‚ÌˆÚ“®
 
 		float val0, val1, val2, val3;
-	};
 
+		JumpComp();
+	}comp;
 private:
 
 };

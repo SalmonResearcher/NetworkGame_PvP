@@ -27,7 +27,7 @@ public:
 	{
 		SPlayerComp();
 
-		XMFLOAT3 size;
+		Scale size;
 
 		AnimScene Anim;
 		uint32_t model;
@@ -45,21 +45,12 @@ public:
 		IDifence::DifenceComp s_dif;
 		IJump::JumpComp s_jmp;
 		IState::StateComp s_stt;
-
+		ColliderMessage msg;　//攻撃の当たり判定
+		ColliderInfo pc; //プレイヤーの当たり判定
 	}comp;
 
 	struct GPlayerComp	//get from server
 	{
-	};
-
-	//もっと簡単にできるはずだと思って作った構造体
-	struct DATA {
-		float posX;	
-		float posY;
-		float posZ;
-
-		float rotateY;	//プレイヤーの回転
-		int attack;	//攻撃しているかどうか
 	};
 
 

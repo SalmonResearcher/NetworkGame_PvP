@@ -13,6 +13,7 @@ public:
 	int Bind(int sock);
 	bool Recv(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* value2);
 	bool Send(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* value2);
+	bool Update();
 	//bool Recv(int sock, IPlayer::SPlayerComp* value);
 	//bool Send(int sock, IPlayer::SPlayerComp* value);
 };

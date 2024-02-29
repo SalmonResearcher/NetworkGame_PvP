@@ -117,6 +117,9 @@ bool Server::Recv(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* 
     recvValue1.PID = 0;
     recvValue2.PID = 1;
 
+    //これ...バイトオーダー変換してないけど"本当に"大丈夫か？
+    //そもそも要素多すぎないか？？
+    
     // 受信したデータを引数で指定された構造体にコピー
     *value1 = recvValue1;
     *value2 = recvValue2;
@@ -147,3 +150,7 @@ bool Server::Send(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* 
     return true;
 }
 
+bool Server::Update()
+{
+
+}
