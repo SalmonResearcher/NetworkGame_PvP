@@ -118,6 +118,7 @@
       <Filter>Interface</Filter>
     </ClCompile>
     <ClCompile Include="ColliderMessage.cpp" />
+    <ClCompile Include="MACRO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">

@@ -154,6 +154,7 @@
     <ClCompile Include="IJump.cpp" />
     <ClCompile Include="IPlayer.cpp" />
     <ClCompile Include="IState.cpp" />
+    <ClCompile Include="MACRO.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMethod.cpp" />
     <ClCompile Include="PlayScene.cpp" />
