@@ -22,6 +22,5 @@ protected:
 
 	State state_;
 
-	SphereCollider* col;
 };
 

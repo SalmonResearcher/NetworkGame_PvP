@@ -11,6 +11,8 @@ PlayScene::PlayScene(GameObject* parent)
 
 void PlayScene::Initialize()
 {
+	//PID_NUM get;
+
 	for (auto i = 0u; i < PLAYER_AMOUNT; ++i) {
 
 		pl[i] = Instantiate<Player>(this);

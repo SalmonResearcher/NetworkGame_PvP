@@ -2,6 +2,7 @@
 #include "Engine/GameObject.h"
 #include"Engine/Image.h"
 #include"Engine/SceneManager.h"
+#include"MACRO.h"
 
 //テストシーンを管理するクラス
 class TestScene : public GameObject
@@ -33,4 +34,11 @@ private:
 	uint8_t exit;
 	uint8_t enter;
 
+	enum SM
+	{
+		play,
+		end,
+	};
+	uint8_t selectionMode;
+	Position pos;
 };

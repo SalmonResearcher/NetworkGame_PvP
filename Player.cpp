@@ -16,10 +16,6 @@ void Player::Initialize(void)
 {
 	modelnum_ = Model::Load("Player.fbx");
 	stt = &state_;
-
-	col = new SphereCollider(comp.s_jmp.pos, radius);
-
-	AddCollider(col);
 }
 
 void Player::Update()
@@ -49,12 +45,6 @@ void Player::Release(void)
 void Player::SingleUpdate()
 {
 	Run();
-
-	if (comp.msg.cnt)
-	{
-		col->SetPos(comp.msg.info[0].pos);
-		col->SetSize(comp.msg.info[0].size);
-	}
 
 	{
 		comp.pc.pos = comp.s_jmp.pos;
