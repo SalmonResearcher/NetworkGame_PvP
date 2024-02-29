@@ -6,6 +6,8 @@ class IPlayer;
 class IJump
 {
 public :
+	IJump() = default;
+	IJump(IPlayer* p);
 
 	virtual void Jump() = 0;
 	virtual void Run() = 0;
@@ -16,11 +18,13 @@ public :
 		Position pos;
 		Rotation rot;
 		
-		XMFLOAT3 vec;
+		Position vec;
 		float speed;
 
 		float val0, val1, val2, val3;
-	};
+
+		JumpComp();
+	}comp;
 
 protected:
 

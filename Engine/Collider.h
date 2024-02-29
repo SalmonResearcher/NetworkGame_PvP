@@ -69,5 +69,9 @@ public:
 	//セッター
 	void SetGameObject(GameObject* gameObject) { pGameObject_ = gameObject; }
 
+	void SetPos(XMFLOAT3 pos);
+
+	void SetSize(XMFLOAT3 scale);
+
 };
 

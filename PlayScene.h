@@ -4,7 +4,7 @@
 #include"Engine//Model.h"
 #include"Player.h"
 
-constexpr uint8_t PLAYER_AMOUNT = 4;
+constexpr uint8_t PLAYER_AMOUNT = 2;
 
 class PlayScene : public GameObject
 {

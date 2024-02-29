@@ -6,6 +6,9 @@ class IPlayer;
 class IDifence
 {
 public:
+	IDifence(IPlayer* p);
+	IDifence() = default;
+
 	struct DifenceComp
 	{
 		float difence;
@@ -17,7 +20,6 @@ public:
 
 	virtual void Difence() = 0;
 	virtual void Run() = 0;
-
 
 protected:
 

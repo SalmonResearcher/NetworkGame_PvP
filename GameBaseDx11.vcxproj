@@ -125,6 +125,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ColliderMessage.cpp" />
     <ClCompile Include="Engine\Audio.cpp" />
     <ClCompile Include="Engine\BillBoard.cpp" />
     <ClCompile Include="Engine\BoxCollider.cpp" />
@@ -149,7 +150,10 @@
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\Transform.cpp" />
     <ClCompile Include="IAttack.cpp" />
+    <ClCompile Include="IDifence.cpp" />
+    <ClCompile Include="IJump.cpp" />
     <ClCompile Include="IPlayer.cpp" />
+    <ClCompile Include="IState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerMethod.cpp" />
     <ClCompile Include="PlayScene.cpp" />

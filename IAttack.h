@@ -13,10 +13,14 @@ public:
 
 	struct AttackComp
 	{
+		AttackComp();
+
 		float force;
 		float knock;
 		float speed;
 		float cool;
+
+		XMFLOAT3 ray;
 
 		float val0, val1, val2, val3;
 	}comp;
@@ -28,5 +32,7 @@ protected:
 
 	IPlayer* parent;
 
+	//-------test
+	SphereCollider* col;
 };
 
