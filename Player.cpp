@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "Hammer.h"
 #include "Engine/Model.h"
 #include "Engine/Input.h"
 #include "TestScene.h"
@@ -14,7 +13,6 @@ void Player::Initialize()
 	hModel_ = Model::Load("TestPlayer.fbx");
 	assert(hModel_ >= 0);
 	
-	Instantiate<Hammer>(this);
 
 }
 

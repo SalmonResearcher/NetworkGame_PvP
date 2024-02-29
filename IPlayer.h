@@ -45,8 +45,6 @@ public:
 		IDifence::DifenceComp s_dif;
 		IJump::JumpComp s_jmp;
 		IState::StateComp s_stt;
-		ColliderMessage msg;　//攻撃の当たり判定
-		ColliderInfo pc; //プレイヤーの当たり判定
 	}comp;
 
 	struct GPlayerComp	//get from server
