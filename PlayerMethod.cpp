@@ -173,7 +173,12 @@ void Jumpable::Jump()
 
 void Jumpable::Run()
 {
-	
+	if (Input::IsKey(DIK_W))	comp.vec.z += 1;
+	if (Input::IsKey(DIK_A))	comp.vec.x +- 1;
+	if (Input::IsKey(DIK_S))	comp.vec.z -= 1;
+	if (Input::IsKey(DIK_D))	comp.vec.x += 1;
+
+	comp.vec = NormalizeF3(comp.vec);
 
 	if (Input::IsKeyDown(DIK_SPACE))	Jump();
 }

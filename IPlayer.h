@@ -14,6 +14,8 @@ class IJump;
 class IState;
 class IDifence;
 
+constexpr int MAX_HP = 100;
+
 class IPlayer
 {
 public:
@@ -27,6 +29,8 @@ public:
 	struct SPlayerComp	//send to server
 	{
 		SPlayerComp();
+
+		int HP;
 
 		Scale size;
 

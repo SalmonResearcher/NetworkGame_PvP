@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/GameObject.h"
 #include"Engine/Image.h"
+#include"Engine/SceneManager.h"
 
 //テストシーンを管理するクラス
 class TestScene : public GameObject
@@ -25,6 +26,7 @@ public:
 private:
 
 	uint8_t bk;
+	uint8_t title;
 	
 	uint8_t select;
 
