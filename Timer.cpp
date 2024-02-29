@@ -52,7 +52,7 @@ void Timer::Draw()
 
 void Timer::Release()
 {
-	pText->Release();
+	//pText->Release();
 }
 
 void Timer::SetLimit(float seconds)

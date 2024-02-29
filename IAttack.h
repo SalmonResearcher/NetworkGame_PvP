@@ -21,6 +21,7 @@ public:
 		float knock;
 		float speed;
 		float cool;
+		XMFLOAT3 ray;
 
 		float val0, val1, val2, val3;
 	}comp;
