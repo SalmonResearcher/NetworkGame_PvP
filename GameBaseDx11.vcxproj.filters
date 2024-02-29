@@ -96,6 +96,11 @@
     <ClCompile Include="Engine\VFX.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
+    <ClCompile Include="Server.cpp" />
+    <ClCompile Include="IPlayer.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -168,6 +173,16 @@
     <ClInclude Include="Engine\VFX.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="IPlayer.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="IAttack.h" />
+    <ClInclude Include="IDifence.h" />
+    <ClInclude Include="IJump.h" />
+    <ClInclude Include="IState.h" />
+    <ClInclude Include="MACRO.h" />
+    <ClInclude Include="Client.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">
