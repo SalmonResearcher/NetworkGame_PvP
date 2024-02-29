@@ -1,45 +1,27 @@
 #pragma once
-#include "Engine/GameObject.h"
 
-class IPlayer;
-class Server;
+#include"IPlayer.h"
+#include"Engine/GameObject.h"
+#include"PlayerMethod.h"
 
-class Player :
-    public GameObject
+class Player : public IPlayer , public GameObject
 {
-private:
-	int hModel_;
-	struct CliantPlayer
-	{
-		Transform transPlayer_;
-	};
-
-	IPlayer* pID;
-
-	Server* pServer;
-	int listen = 0;
-	int sock = 0;
-
 public:
-	//コンストラクタ
-	//引数：parent  親オブジェクト（SceneManager）
+	Player();
 	Player(GameObject* parent);
 
-	//初期化
 	void Initialize() override;
-
-	//更新
 	void Update() override;
-
-	//描画
 	void Draw() override;
-
-	//開放
 	void Release() override;
 
-	bool isPlayable = true;
+	void SingleUpdate();
 
-	CliantPlayer pla;
+protected:
+
+	uint8_t modelnum_;
+
+	State state_;
 
 };
 

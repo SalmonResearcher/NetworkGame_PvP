@@ -1,5 +1,8 @@
 #pragma once
 #include "Engine/GameObject.h"
+#include"Engine/Image.h"
+#include"Engine/SceneManager.h"
+#include"MACRO.h"
 
 class Player;
 
@@ -24,4 +27,22 @@ public:
 
 	//ŠJ•ú
 	void Release() override;
+
+private:
+
+	uint8_t bk;
+	uint8_t title;
+	
+	uint8_t select;
+
+	uint8_t exit;
+	uint8_t enter;
+
+	enum SM
+	{
+		play,
+		end,
+	};
+	uint8_t selectionMode;
+	Position pos;
 };

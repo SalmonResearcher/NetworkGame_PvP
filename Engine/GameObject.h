@@ -7,11 +7,7 @@
 #include "BoxCollider.h"
 #include "Transform.h"
 
-
-
-
 using namespace DirectX;
-
 
 //-----------------------------------------------------------
 //全てのゲームオブジェクト（シーンも含めて）が継承するインターフェース

@@ -95,3 +95,15 @@ void Collider::Draw(XMFLOAT3 position)
 	Model::SetTransform(hDebugModel_, transform);
 	Model::Draw(hDebugModel_);
 }
+
+void Collider::SetPos(XMFLOAT3 pos)
+{
+	center_ = pos;
+}
+
+void Collider::SetSize(XMFLOAT3 scale)
+{
+	size_ = scale;
+}
+
+

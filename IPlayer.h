@@ -6,12 +6,17 @@
 #include "IState.h"
 #include "MACRO.h"
 
+#include "ColliderMessage.h"
+
 using namespace DirectX;
 
 class IAttack;
 class IJump;
 class IState;
 class IDifence;
+
+
+constexpr int MAX_HP = 100;
 
 class IPlayer
 {
@@ -26,6 +31,8 @@ public:
 	struct SPlayerComp	//send to server
 	{
 		SPlayerComp();
+
+		int HP;
 
 		Scale size;
 
@@ -45,21 +52,17 @@ public:
 		IDifence::DifenceComp s_dif;
 		IJump::JumpComp s_jmp;
 		IState::StateComp s_stt;
+
+		ColliderMessage msg;
+		ColliderInfo pc;
 	}comp;
-
-	struct GPlayerComp	//get from server
-	{
-	};
-
-
-
-	virtual void Update() = 0;
 
 public:
 
 
-private:
-	void Run();
+protected:
+	virtual void Run();
+
 
 
 private:

@@ -1,9 +1,15 @@
 #pragma once
 #include"MACRO.h"
 
+
+class IPlayer;
+
 class IJump
 {
 public :
+	IJump() = default;
+	IJump(IPlayer* p);
+
 
 	virtual void Jump() = 0;
 	virtual void Run() = 0;
@@ -11,16 +17,22 @@ public :
 
 	struct JumpComp
 	{
-		Position pos;//Œ»İ‚ÌêŠ
+
+		Position pos;
 		Rotation rot;
-		Position vec;//ˆÚ“®‚µ‚½‚¢•ûŒüƒxƒNƒgƒ‹
-		float speed;//ã‚Ö‚ÌˆÚ“®
+		
+		Position vec;
+		float speed;
+
 
 		float val0, val1, val2, val3;
 
 		JumpComp();
 	}comp;
-private:
+
+protected:
+
+	IPlayer* parent;
 
 };
 

@@ -1,9 +1,14 @@
 #pragma once
 #include<cstdint>
 
+
+class IPlayer;
+
 class IState
 {
 public:
+	IState() = default;
+	IState(IPlayer* p);
 
 	enum class Mask
 	{
@@ -13,20 +18,24 @@ public:
 		Death				= WScore * 2,
 		Landing				= Death * 2,
 
+		Running				= Landing *2,
+
 	};
 
 	struct StateComp
 	{
+		StateComp();
 		uint8_t sttbit;
 
 		float val0, val1, val2, val3;
-	};
+	}comp;
 
-	virtual void State() = 0;
 	virtual void Run() = 0;
 
 
-private:
+protected:
+
+	IPlayer* parent;
 
 };
 
