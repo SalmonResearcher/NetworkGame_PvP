@@ -100,6 +100,8 @@
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
 
+    <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="IPlayer.cpp">
@@ -120,6 +122,7 @@
     </ClCompile>
     <ClCompile Include="ColliderMessage.cpp" />
     <ClCompile Include="MACRO.cpp" />
+
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\BoxCollider.h">
@@ -192,6 +195,7 @@
     <ClInclude Include="Engine\VFX.h">
       <Filter>01Engine\ResourceManager</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="IAttack.h">
       <Filter>Interface</Filter>
     </ClInclude>

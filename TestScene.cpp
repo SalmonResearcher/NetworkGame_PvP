@@ -1,4 +1,5 @@
 #include "TestScene.h"
+#include "Timer.h"
 
 #include"Engine/Input.h"
 
@@ -13,7 +14,7 @@ TestScene::TestScene(GameObject * parent)
 //初期化
 void TestScene::Initialize()
 {
-
+	Instantiate<Timer>(this);
 	bk = Image::Load("BackGround.png");
 	title = Image::Load("Title.png");
 	select = Image::Load("Select.png");
@@ -21,6 +22,7 @@ void TestScene::Initialize()
 	enter = Image::Load("Play.png");
 
 	pos = { 0,0,0 };
+
 }
 
 //更新
