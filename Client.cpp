@@ -77,65 +77,82 @@ int Client::NonBlocking(int sock)
 
 }
 
-// struct IPlayerを受信、バイトオーダーを変換
-//	引数
-//		sock  : 受信に使用するソケットのソケットディスクリプタ
-//		value : 受信データの格納領域の先頭アドレス
-//	戻り値
-//		成功 : true
-//		失敗 : false
-bool Client::Recv(int sock, IPlayer::DATA* recvComp)
+/// <summary>
+/// 二つの構造体をサーバーに送ります
+/// </summary>
+/// <param name="sock">ソケット</param>
+/// <param name="value1">コンポーネント１</param>
+/// <param name="value2">コンポーネント２</param>
+/// <returns></returns>
+bool Client::Recv(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* value2)
 {
-	IPlayer::DATA recvVal;	// 受信データの格納領域...ネットワークバイトオーダー状態
-	int ret;		// 成否の判定用
-	// 受信
-	ret = recv(sock, (char*)&recvVal, sizeof(recvVal), 0);
-	// 失敗
-	if (ret != sizeof(recvVal))
-	{
-		Debug::Log("------クライアント受信失敗------", true);
-		return false;
-	}
+    IPlayer::SPlayerComp recvValue1, recvValue2;
+    int ret;
 
-	// 成功時の処理
-	recvComp->posX = ntohl(recvVal.posX);								// バイトオーダー変換
-	recvComp->posY = ntohl(recvVal.posY);
-	recvComp->posZ = ntohl(recvVal.posZ);
-	recvComp->rotateY = ntohl(recvVal.rotateY);
-	recvComp->attack = ntohl(recvVal.attack);
+    // データを1バイトずつ受信する
+    char* buff1 = reinterpret_cast<char*>(&recvValue1);
+    char* buff2 = reinterpret_cast<char*>(&recvValue2);
 
-	return true;
+    // 1つ目のデータを受信
+    for (int i = 0; i < sizeof(recvValue1); )
+    {
+        ret = recv(sock, &buff1[i], sizeof(recvValue1) - i, 0);
+
+        if (ret <= 0)
+        {
+            Debug::Log("recv1でエラーまたは接続が閉じられました", true);
+            return false;
+        }
+
+        i += ret;
+    }
+
+
+    // 2つ目のデータを受信
+    for (int i = 0; i < sizeof(recvValue2); )
+    {
+        ret = recv(sock, &buff2[i], sizeof(recvValue2) - i, 0);
+
+        if (ret <= 0)
+        {
+            Debug::Log("recv2でエラーまたは接続が閉じられました", true);
+            return false;
+        }
+
+        i += ret;
+    }
+
+    // 受信したデータを引数で指定された構造体にコピー
+    *value1 = recvValue1;
+    *value2 = recvValue2;
+
+    return true;
 }
 
-// unsigned intのデータをバイトオーダーを変換してから送信
-//	引数
-//		sock  : 送信に使用するソケットのソケットディスクリプタ
-//		value : 送信データ
-//	戻り値
-//		成功 : true
-//		失敗 : false
-bool Client::Send(int sock, IPlayer::DATA* sendComp)
+/// <summary>
+/// プレイヤーのコンポーネントを２つ受け取ります
+/// </summary>
+/// <param name="sock">ソケット</param>
+/// <param name="value1">コンポーネント１</param>
+/// <param name="value2">コンポーネント２</param>
+/// <returns></returns>
+bool Client::Send(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* value2)
 {
-	IPlayer::DATA sendData;				// 送信データ ... ネットワークバイトオーダーに変換後の値を格納
+    int ret;
+    // 1つ目のデータを送信
+    ret = send(sock, reinterpret_cast<char*>(value1), sizeof(IPlayer::SPlayerComp), 0);
+    if (ret != sizeof(IPlayer::SPlayerComp))
+    {
+        Debug::Log("Error: Send\n");
+        return false;
+    }
 
-	sendData.posX = htonl(sendComp->posX);
-	sendData.posY = htonl(sendComp->posY);
-	sendData.posZ = htonl(sendComp->posZ);
-	sendData.rotateY = htonl(sendComp->rotateY);
-	sendData.attack = htonl(sendComp->attack);
-
-	int ret;		// 成否の判定用
-	// 送信
-	ret = send(sock, (char*)&sendComp, sizeof(sendComp), 0);
-	// 失敗
-	if (ret != sizeof(sendComp))
-	{
-		OutputDebugString("送信失敗\n");
-
-		return false;
-	}
-
-	OutputDebugString("送信成功\n");
-		// 成功
-	return true;
+    // 2つ目のデータを送信
+    ret = send(sock, reinterpret_cast<char*>(value2), sizeof(IPlayer::SPlayerComp), 0);
+    if (ret != sizeof(IPlayer::SPlayerComp))
+    {
+        Debug::Log("Error: Send\n");
+        return false;
+    }
+    return true;
 }

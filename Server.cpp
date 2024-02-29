@@ -26,7 +26,8 @@ int Server::InitWinSock()
         return 1;	// おーわり！
     }
     Debug::Log("Success: InitWinSock", true);
-    return ret;
+    return ret + playerID_;
+    playerID_++;
 }
 
 //2，リスンソケット作成
@@ -75,73 +76,74 @@ int Server::Bind(int sock)
 
 }
 
-bool Server::Recv(int sock, IPlayer::SPlayerComp* value)
+bool Server::Recv(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* value2)
 {
-    //IPlayer::DATA recvValue;
-    IPlayer::SPlayerComp recvValue[2];	//受信データの格納領域...ネットワークバイトオーダー状態
-    int ret;		//成否の判定用
+    IPlayer::SPlayerComp recvValue1, recvValue2;
+    int ret;
 
-    //受信
-    ret = recv(sock, (char*)&recvValue, sizeof(recvValue), 0);
+    // データを1バイトずつ受信する
+    char* buff1 = reinterpret_cast<char*>(&recvValue1);
+    char* buff2 = reinterpret_cast<char*>(&recvValue2);
 
-    //失敗
-    if (ret != sizeof(recvValue))
+    // 1つ目のデータを受信
+    for (int i = 0; i < sizeof(recvValue1); )
     {
-        //送られたが、データがなかった時
-        if (WSAGetLastError() == WSAEWOULDBLOCK)
+        ret = recv(sock, &buff1[i], sizeof(recvValue1) - i, 0);
+
+        if (ret <= 0)
         {
-            Debug::Log("Recv EMPTY Data!", true);
-            return true;
-        }
-        //そもそも送られもしなかった時
-        else
-        {
-            Debug::Log("Error : Recv!", true);
+            Debug::Log("recv1でエラーまたは接続が閉じられました", true);
             return false;
         }
+
+        i += ret;
     }
 
-    int size = sizeof(recvValue);
-    char* buff = new char[size];
-
-    for()
+    // 2つ目のデータを受信
+    for (int i = 0; i < sizeof(recvValue2); )
     {
-        for(int l = 0; l < size; l++)
+        ret = recv(sock, &buff2[i], sizeof(recvValue2) - i, 0);
+
+        if (ret <= 0)
         {
-            buff[l] = ;
+            Debug::Log("recv2でエラーまたは接続が閉じられました", true);
+            return false;
         }
+
+        i += ret;
     }
 
-        //送られたし、データもあっていわゆる成功時の処理
-        
+    //絶対ここじゃないぷれいやーID設定
+    recvValue1.PID = 0;
+    recvValue2.PID = 1;
 
-        //value->posX = ntohl(recvValue.posX);        //バイトオーダー変換
-        //value->posY = ntohl(recvValue.posY);        //バイトオーダー変換
-        //value->posZ = ntohl(recvValue.posZ);        //バイトオーダー変換
-        //
-        //value->rotateY = ntohl(recvValue.rotateY);  //バイトオーダー変換
-        //value->attack = ntohl(recvValue.attack);    //バイトオーダー変換
-        return true;
+    // 受信したデータを引数で指定された構造体にコピー
+    *value1 = recvValue1;
+    *value2 = recvValue2;
+
+    return true;
 }
 
-bool Server::Send(int sock, IPlayer::DATA* value)
+bool Server::Send(int sock, IPlayer::SPlayerComp* value1, IPlayer::SPlayerComp* value2)
 {
-    IPlayer::DATA sendValue;
-
-    //バイトオーダー変換
-    sendValue.posX = htonl(value->posX);
-    sendValue.posY = htonl(value->posY);
-    sendValue.posZ = htonl(value->posZ);
-
-    sendValue.rotateY = htonl(value->rotateY);
-    sendValue.attack = htonl(value->attack);
-    
     int ret;
-    ret = send(sock, (char*)&sendValue, sizeof(sendValue), 0);
-    if (ret != 0)
+
+    // 1つ目のデータを送信
+    ret = send(sock, reinterpret_cast<char*>(value1), sizeof(IPlayer::SPlayerComp), 0);
+    if (ret != sizeof(IPlayer::SPlayerComp))
     {
-        OutputDebugString("Error : Send\n");
+        Debug::Log("Error: Send\n");
         return false;
     }
-    return 1;
+
+    // 2つ目のデータを送信
+    ret = send(sock, reinterpret_cast<char*>(value2), sizeof(IPlayer::SPlayerComp), 0);
+    if (ret != sizeof(IPlayer::SPlayerComp))
+    {
+        Debug::Log("Error: Send\n");
+        return false;
+    }
+
+    return true;
 }
+

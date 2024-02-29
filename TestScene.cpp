@@ -16,8 +16,8 @@ void TestScene::Initialize()
 	Instantiate<Stage>(this);
 
 	//カメラ位置をてきとうに配置
-	Camera::SetPosition({0,5,-25});
-	Camera::SetTarget({ 0,0,10 });
+	Camera::SetPosition({0,10,-25});
+	Camera::SetTarget({ 0,0,0 });
 }
 
 //更新
