@@ -22,5 +22,9 @@ public:
 private:
 	Player* pl[PLAYER_AMOUNT];
 
+	IPlayer::SPlayerComp ConnectComp[PLAYER_AMOUNT];
+
+	void SendComp(uint8_t myID);
+
 	uint8_t ground;
 };

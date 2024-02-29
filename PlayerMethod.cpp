@@ -169,12 +169,13 @@ Jumpable::Jumpable(IPlayer* p) : IJump(p)
 void Jumpable::Jump()
 {
 	comp.speed = 2;
-
 }
 
 void Jumpable::Run()
 {
-	Jump();
+	
+
+	if (Input::IsKeyDown(DIK_SPACE))	Jump();
 }
 
 Unjumpable::Unjumpable(IPlayer* p) : IJump(p)
@@ -188,7 +189,7 @@ void Unjumpable::Jump()
 
 void Unjumpable::Run()
 {
-
+	Jump();
 }
 
 State::State(IPlayer* p):IState(p),da(p),ja(p),na(p),dd(p),nd(p),jd(p),jp(p),ujp(p)

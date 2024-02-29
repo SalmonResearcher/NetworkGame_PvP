@@ -19,8 +19,11 @@ void PlayScene::Initialize()
 
 void PlayScene::Update()
 {
+	//memcpy(pl, ConnectComp, sizeof(IPlayer::SPlayerComp) * PLAYER_AMOUNT);
 
-	
+	pl[PID_NUM]->SingleUpdate();
+
+	SendComp(PID_NUM);
 }
 
 void PlayScene::Draw()
@@ -35,4 +38,9 @@ void PlayScene::Draw()
 
 void PlayScene::Release()
 {
+}
+
+void PlayScene::SendComp(uint8_t myID)
+{
+	pl[myID];
 }

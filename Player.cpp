@@ -24,20 +24,6 @@ void Player::Initialize(void)
 
 void Player::Update()
 {
-	Run();
-
-	if (comp.msg.cnt)
-	{
-		col->SetPos(comp.msg.info[0].pos);
-		col->SetSize(comp.msg.info[0].size);
-	}
-
-	{
-		comp.pc.pos = comp.s_jmp.pos;
-		comp.pc.rot = {};
-		comp.pc.size = { radius , radius , radius };
-		comp.pc.type = static_cast<uint8_t>(ColliderContext::CC_Player);
-	}
 }
 
 void Player::Draw()
@@ -58,4 +44,22 @@ void Player::Draw()
 
 void Player::Release(void)
 {
+}
+
+void Player::SingleUpdate()
+{
+	Run();
+
+	if (comp.msg.cnt)
+	{
+		col->SetPos(comp.msg.info[0].pos);
+		col->SetSize(comp.msg.info[0].size);
+	}
+
+	{
+		comp.pc.pos = comp.s_jmp.pos;
+		comp.pc.rot = {};
+		comp.pc.size = { radius , radius , radius };
+		comp.pc.type = static_cast<uint8_t>(ColliderContext::CC_Player);
+	}
 }

@@ -14,6 +14,8 @@ public:
 	void Draw() override;
 	void Release() override;
 
+	void SingleUpdate();
+
 protected:
 
 	uint8_t modelnum_;
