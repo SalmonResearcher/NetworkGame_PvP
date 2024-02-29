@@ -4,9 +4,13 @@
 #include"Engine/SceneManager.h"
 #include"MACRO.h"
 
+class Player;
+
 //テストシーンを管理するクラス
 class TestScene : public GameObject
 {
+	Player* pPlayer1;
+	Player* pPlayer2;
 public:
 	//コンストラクタ
 	//引数：parent  親オブジェクト（SceneManager）

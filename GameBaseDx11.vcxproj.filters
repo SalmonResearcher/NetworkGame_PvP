@@ -99,6 +99,7 @@
     <ClCompile Include="Engine\VFX.cpp">
       <Filter>01Engine\ResourceManager</Filter>
     </ClCompile>
+
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="IPlayer.cpp">
@@ -211,6 +212,7 @@
     </ClInclude>
     <ClInclude Include="ColliderMessage.h" />
     <ClInclude Include="PlayerMethod.h" />
+
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shader\Simple2D.hlsl">

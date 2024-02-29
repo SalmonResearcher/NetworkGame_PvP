@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Engine/Model.h"
+
 #include"Engine/SphereCollider.h"
 
 constexpr float radius = .5f;
@@ -16,10 +17,12 @@ void Player::Initialize(void)
 {
 	modelnum_ = Model::Load("Player.fbx");
 	stt = &state_;
+
 }
 
 void Player::Update()
 {
+
 }
 
 void Player::Draw()
@@ -52,4 +55,5 @@ void Player::SingleUpdate()
 		comp.pc.size = { radius , radius , radius };
 		comp.pc.type = static_cast<uint8_t>(ColliderContext::CC_Player);
 	}
+
 }

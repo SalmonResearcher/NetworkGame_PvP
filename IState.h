@@ -1,6 +1,7 @@
 #pragma once
 #include<cstdint>
 
+
 class IPlayer;
 
 class IState
@@ -16,8 +17,8 @@ public:
 		WScore				= Healing * 2,
 		Death				= WScore * 2,
 		Landing				= Death * 2,
-		Running				= Landing *2,
 
+		Running				= Landing *2,
 
 	};
 

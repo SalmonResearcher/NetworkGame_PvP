@@ -4,6 +4,7 @@
 
 class IPlayer;
 
+
 class IAttack
 {
 public:
@@ -13,6 +14,7 @@ public:
 
 	struct AttackComp
 	{
+
 		AttackComp();
 
 		float force;
@@ -23,6 +25,7 @@ public:
 		float val0, val1, val2, val3;
 	}comp;
 	virtual void Run() = 0;
+
 
 	IAttack(IPlayer* p);
 

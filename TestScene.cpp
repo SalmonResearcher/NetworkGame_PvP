@@ -1,16 +1,19 @@
 #include "TestScene.h"
+
 #include"Engine/Input.h"
 
 
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 TestScene::TestScene(GameObject * parent)
 	: GameObject(parent, "TestScene")
 {
 }
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void TestScene::Initialize()
 {
+
 	bk = Image::Load("BackGround.png");
 	title = Image::Load("Title.png");
 	select = Image::Load("Select.png");
@@ -20,7 +23,7 @@ void TestScene::Initialize()
 	pos = { 0,0,0 };
 }
 
-//XV
+//æ›´æ–°
 void TestScene::Update()
 {
 	if (Input::IsKeyDown(DIK_W) || Input::IsKeyDown(DIK_S))
@@ -48,7 +51,7 @@ void TestScene::Update()
 
 }
 
-//•`‰æ
+//æç”»
 void TestScene::Draw()
 {
 	Transform t = {};
@@ -78,7 +81,7 @@ void TestScene::Draw()
 	Image::Draw(exit);
 }
 
-//ŠJ•ú
+//é–‹æ”¾
 void TestScene::Release()
 {
 }
